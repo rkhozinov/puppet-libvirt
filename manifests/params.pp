@@ -13,16 +13,23 @@ class libvirt::params {
       } else {
         $virtinst_package = 'python-virtinst'
       }
+      $qemu_package = 'qemu-kvm'
       $radvd_package = 'radvd'
+      $python_package = 'libvirt-python'
       $sysconfig = {}
       $deb_default = false
     }
     'Debian': {
       $libvirt_package = 'libvirt-bin'
       $virtinst_package = 'virtinst'
+      $qemu_package = 'qemu-kvm'
       $radvd_package = 'radvd'
+      $python_package = 'python-libvirt'
       $sysconfig = false
-      $deb_default = {}
+      $deb_default = $::service_provider ? {
+        'systemd' => { 'libvirtd_opts' => '' },  # no '-d', it confuses systemd
+        default   => {},
+      }
       # UNIX socket
       $auth_unix_ro = 'none'
       $unix_sock_rw_perms = '0770'
@@ -42,7 +49,9 @@ class libvirt::params {
       $libvirt_package = 'libvirt'
       $libvirt_service = 'libvirtd'
       $virtinst_package = 'python-virtinst'
+      $qemu_package = 'qemu-kvm'
       $radvd_package = 'radvd'
+      $python_package = 'python-libvirt'
       $sysconfig = false
       $deb_default = false
     }

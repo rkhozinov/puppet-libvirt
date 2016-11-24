@@ -1,5 +1,8 @@
 <network>
   <name><%= @name -%></name>
+  <%- if @domain_name -%>
+  <domain name='<%= @domain_name -%>'/>
+  <%- end -%>
   <%- if @mac -%>
   <mac address='<%= @mac -%>'/>
   <%- end -%>
@@ -14,6 +17,22 @@
   <%-end -%>
   <%- if @bridge -%>
   <bridge name='<%= @bridge -%>'<%- if @forward_mode and @forward_mode != 'bridge' -%> stp='on' delay='0'<%-end-%>/>
+  <%- end -%>
+  <%- if @virtualport -%>
+  <virtualport type='openvswitch'/>
+  <%- end -%>
+  <%- if !@portgroups.empty? -%>
+  <%-   @portgroups.each do |n, pg| -%>
+  <portgroup name='<%= n -%>'<%- if pg.has_key?('default') -%> default='<%= pg['default'] -%>'<%- end -%> >
+    <%- if pg.has_key?('vlan') -%>
+    <vlan>
+      <%- [pg['vlan']].flatten.each do |v| -%>
+      <tag id='<%= v -%>'/>
+      <%- end -%>
+    </vlan>
+    <%- end -%>
+  </portgroup>
+  <%-   end -%>
   <%- end -%>
   <%-if @ip -%>
   <%-  @ip.each do |ip| -%>

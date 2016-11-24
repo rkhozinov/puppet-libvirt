@@ -71,12 +71,15 @@ define libvirt::network (
   $ensure             = 'present',
   $autostart          = false,
   $bridge             = undef,
+  $domain_name        = undef,
   $forward_mode       = undef,
+  $virtualport        = false,
   $forward_dev        = undef,
   $forward_interfaces = [],
   $ip                 = undef,
   $ipv6               = undef,
   $mac                = undef,
+  $portgroups         = {},
 ) {
   validate_bool ($autostart)
   validate_re ($ensure, '^(present|defined|enabled|running|undefined|absent)$',
@@ -125,7 +128,7 @@ define libvirt::network (
         exec { "virsh-net-start-${title}":
           command => "virsh net-start ${title}",
           require => Exec["virsh-net-define-${title}"],
-          unless  => "virsh -q net-list --all | grep -Eq '^\s*${title}\\s+active'",
+          unless  => "virsh -q net-list --all | grep -Eq '^\s*${title}\s+active'",
         }
       }
     }
@@ -139,7 +142,7 @@ define libvirt::network (
         onlyif  => "virsh -q net-list --all | grep -Eq '^\s*${title}\\s+inactive'",
         require => Exec["virsh-net-destroy-${title}"],
       }
-      file { [ $network_file, $autostart_file ]:
+      file { $autostart_file:
         ensure  => absent,
         require => Exec["virsh-net-undefine-${title}"],
       }

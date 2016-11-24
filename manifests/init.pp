@@ -57,6 +57,8 @@ class libvirt (
   $qemu_set_process_name     = undef,
   $qemu_user                 = undef,
   $qemu_group                = undef,
+  $qemu_cgroup_device_acl    = undef,
+  $qemu_clear_emulator_capabilities = undef,
   $qemu_security_driver      = undef,
   # sasl2 options
   $sasl2_libvirt_mech_list   = undef,

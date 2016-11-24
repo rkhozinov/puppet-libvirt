@@ -57,6 +57,7 @@ class libvirt (
   $qemu_set_process_name     = undef,
   $qemu_user                 = undef,
   $qemu_group                = undef,
+  $qemu_dynamic_ownership    = undef,
   $qemu_cgroup_device_acl    = undef,
   $qemu_clear_emulator_capabilities = undef,
   $qemu_security_driver      = undef,

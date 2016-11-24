@@ -15,6 +15,7 @@ class libvirt::params {
       }
       $qemu_package = 'qemu-kvm'
       $radvd_package = 'radvd'
+      $python_package = 'libvirt-python'
       $sysconfig = {}
       $deb_default = false
     }
@@ -23,6 +24,7 @@ class libvirt::params {
       $virtinst_package = 'virtinst'
       $qemu_package = 'qemu-kvm'
       $radvd_package = 'radvd'
+      $python_package = 'python-libvirt'
       $sysconfig = false
       $deb_default = {}
       # UNIX socket
@@ -46,6 +48,7 @@ class libvirt::params {
       $virtinst_package = 'python-virtinst'
       $qemu_package = 'qemu-kvm'
       $radvd_package = 'radvd'
+      $python_package = 'python-libvirt'
       $sysconfig = false
       $deb_default = false
     }
